@@ -1,0 +1,42 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.10.3"}
+        zero.one/geni {:mvn/version "0.0.40"}
+        com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.10.5.1"}
+        org.apache.logging.log4j/log4j-core {:mvn/version "2.17.1"}
+        org.apache.logging.log4j/log4j-api {:mvn/version "2.17.1"}
+        org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.17.1"}}
+ :mvn/local-repo "repository"
+ :aliases
+ {:dev {:extra-deps {;; Spark
+                     org.apache.spark/spark-avro_2.12 {:mvn/version "3.1.3"}
+                     org.apache.spark/spark-core_2.12 {:mvn/version "3.1.3"}
+                     ;; org.apache.spark/spark-hive_2.12 {:mvn/version "3.1.3"}
+                     org.apache.spark/spark-mllib_2.12 {:mvn/version "3.1.3"}
+                     org.apache.spark/spark-sql_2.12 {:mvn/version "3.1.3"}
+                     ;; org.apache.spark/spark-streaming_2.12 {:mvn/version "3.1.3"}
+                     org.apache.spark/spark-kubernetes_2.12 {:mvn/version "3.1.3"}
+
+                     ;; Arrow
+                     org.apache.arrow/arrow-memory-netty {:mvn/version  "2.0.0"}
+                     org.apache.arrow/arrow-memory-core {:mvn/version  "2.0.0"}
+                     org.apache.arrow/arrow-vector {:mvn/version  "2.0.0"
+                                                    :exclusions [commons-codec/commons-codec
+                                                                 com.fasterxml.jackson.core/jackson-databind]}
+                     ;; Databases
+                     ;; mysql/mysql-connector-java {:mvn/version  "8.0.23"}
+                     ;; org.postgresql/postgresql {:mvn/version "42.2.19"}
+                     ;; org.xerial/sqlite-jdbc {:mvn/version "3.34.0"}
+                     ;; Optional: Spark XGBoost
+                     ;; ml.dmlc/xgboost4j-spark_2.12 {:mvn/version "1.2.0"}
+                     ;; ml.dmlc/xgboost4j_2.12 {:mvn/version  "1.2.0"}
+                     }}
+  ;; clj -T:build uber
+  :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
+          :ns-default build}
+  ;; clj -M:runner
+  :runner {:extra-paths ["test" "./"]
+           :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}
+                        io.github.cognitect-labs/test-runner
+                        {:git/tag "v0.5.0" :git/sha "48c3c67"}
+                        commons-io/commons-io {:mvn/version "2.11.0"}}
+           :main-opts ["-m" "runner"]}}}
